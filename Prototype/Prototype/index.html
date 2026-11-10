@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MetroOps | Control Room Console</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+  <a class="brand" href="#overview">
+    <span class="logo">M</span>
+    <span>
+      <b>METRO<span>OPS</span></b>
+      <small>CONTROL SYSTEM</small>
+    </span>
+  </a>
+
+  <p class="menu-label">MAIN MENU</p>
+
+  <nav>
+    <a class="nav-link active" href="#overview" data-page="overview">▦　Overview</a>
+    <a class="nav-link" href="#monitoring" data-page="monitoring">🚇　Train Monitoring</a>
+    <a class="nav-link" href="#alerts" data-page="alerts">⚠　Fault Alerts <b id="navFaultCount" class="nav-count">2</b></a>
+    <a class="nav-link" href="#incidents" data-page="incidents">♟　Passenger Incidents <b id="navIncidentCount" class="nav-count">1</b></a>
+    <a class="nav-link" href="#shift" data-page="shift">◷　Shift Management</a>
+  </nav>
+
+  <div class="operator">
+    <span class="avatar">HL</span>
+    <span>
+      <b>Control Operator</b>
+      <small>Shift A · Active</small>
+    </span>
+    <i></i>
+  </div>
+</aside>
+
+<main>
+
+<header class="topbar">
+  <button id="menuToggle" class="menu-toggle">☰</button>
+  <div>Metro Operations / <strong id="crumb">Dashboard</strong></div>
+  <div class="top-right">
+    <span class="online">● SYSTEM ONLINE</span>
+    <b id="clock"></b>
+  </div>
+</header>
+
+<!-- OVERVIEW -->
+<section class="page" id="overview">
+
+  <p class="eyebrow">METRO OPERATIONS / DASHBOARD</p>
+  <h1>Control Room Overview</h1>
+  <p class="muted">Monitor network activity and manage operations.</p>
+
+  <div class="banner">
+    <div>
+      <small>NETWORK STATUS</small>
+      <h2 id="networkTitle">Operational Issues Detected</h2>
+      <p id="networkMessage">Active issues require operator attention.</p>
+    </div>
+    <b>● LIVE MONITORING</b>
+  </div>
+
+  <div class="stats">
+
+    <article class="stat blue">
+      <label>Active Trains</label>
+      <strong id="activeTrainCount">24</strong>
+      <small>Currently monitored</small>
+    </article>
+
+    <article class="stat green">
+      <label>Normal Operations</label>
+      <strong id="normalCount">21</strong>
+      <small>Running normally</small>
+    </article>
+
+    <article class="stat red">
+      <label>Active Issues</label>
+      <strong id="activeIssueCount">2</strong>
+      <small>Faults and delays</small>
+    </article>
+
+    <article class="stat orange">
+      <label>Passenger Incidents</label>
+      <strong id="activeIncidentCount">1</strong>
+      <small>Unresolved incidents</small>
+    </article>
+
+  </div>
+
+  <div class="columns">
+
+    <article class="panel">
+      <div class="panel-head">
+        <div>
+          <h3>Network Overview</h3>
+          <p>Metro route and train positions</p>
+        </div>
+        <span class="tag">● LIVE</span>
+      </div>
+
+      <div class="legend">
+        <span>🟢 Normal</span>
+        <span>🔴 Fault</span>
+        <span>🟠 Delayed</span>
+      </div>
+
+      <div class="map">
+        <svg viewBox="0 0 700 330" role="img" aria-label="Illustrative metro network map">
+
+          <path class="route blue-route"
+          d="M70 165 L205 165 L350 55 L500 55 L630 165"/>
+
+          <path class="route green-route"
+          d="M205 165 L350 275 L500 275 L630 165"/>
+
+          <g class="stations">
+            <circle cx="70" cy="165" r="8"/>
+            <text x="70" y="140">Central</text>
+
+            <circle cx="205" cy="165" r="8"/>
+            <text x="205" y="140">City</text>
+
+            <circle cx="350" cy="55" r="8"/>
+            <text x="350" y="30">North</text>
+
+            <circle cx="500" cy="55" r="8"/>
+            <text x="500" y="30">Airport</text>
+
+            <circle cx="630" cy="165" r="8"/>
+            <text x="630" y="140">East</text>
+
+            <circle cx="350" cy="275" r="8"/>
+            <text x="350" y="306">Market</text>
+
+            <circle cx="500" cy="275" r="8"/>
+            <text x="500" y="306">South</text>
+          </g>
+
+          <circle id="marker-T-104"
+          class="train-marker normal-marker"
+          cx="205" cy="165" r="13"/>
+
+          <text class="train-label" x="205" y="194">T-104</text>
+
+          <circle id="marker-T-108"
+          class="train-marker fault-marker"
+          cx="500" cy="55" r="13"/>
+
+          <text class="train-label" x="500" y="84">T-108</text>
+
+          <circle id="marker-T-112"
+          class="train-marker delayed-marker"
+          cx="350" cy="275" r="13"/>
+
+          <text class="train-label" x="350" y="246">T-112</text>
+
+        </svg>
+      </div>
+
+      <div class="map-foot">
+        <span>7 stations monitored</span>
+        <span>3 routes displayed</span>
+      </div>
+    </article>
+
+  </div>
+
+</section>
+
+<!-- TRAIN MONITORING -->
+<section class="page" id="monitoring">
+
+  <p class="eyebrow">FLEET OPERATIONS</p>
+  <h1>Train Monitoring</h1>
+  <p class="muted">Inspect train positions, speeds and operational states.</p>
+
+  <article class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Live Train Register</h3>
+        <p>Sample train records</p>
+      </div>
+      <button class="secondary" id="refreshTrains">↻ Refresh Data</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>TRAIN ID</th>
+            <th>LOCATION</th>
+            <th>DESTINATION</th>
+            <th>SPEED</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody id="monitorTrainRows"></tbody>
+      </table>
+    </div>
+  </article>
+
+  <p class="notice">
+    Train positions and operating values are simulated for demonstration.
+    They are not connected to live railway systems.
+  </p>
+
+</section>
+
+<!-- FAULT ALERTS -->
+<section class="page" id="alerts">
+
+  <p class="eyebrow">OPERATIONS / SAFETY</p>
+  <h1>Fault Alerts</h1>
+  <p class="muted">Review, acknowledge and resolve operational alerts.</p>
+
+  <article class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Alert Register</h3>
+        <p>Acknowledgement does not mean a fault has been repaired.</p>
+      </div>
+      <span class="count" id="allAlertCount">2 ACTIVE</span>
+    </div>
+
+    <div id="allAlertList"></div>
+  </article>
+
+</section>
+
+<!-- PASSENGER INCIDENTS -->
+<section class="page" id="incidents">
+
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">PASSENGER SAFETY</p>
+      <h1>Passenger Incidents</h1>
+      <p class="muted">Report incidents and coordinate simulated emergency assistance.</p>
+    </div>
+
+    <button class="primary" id="reportIncidentBtn">
+      ＋ Report Incident
+    </button>
+  </div>
+
+  <div class="incident-stats">
+
+    <div>
+      <small>ACTIVE INCIDENTS</small>
+      <b id="incidentActiveSummary">1</b>
+    </div>
+
+    <div>
+      <small>ASSISTANCE DISPATCHED</small>
+      <b id="incidentDispatchSummary">0</b>
+    </div>
+
+    <div>
+      <small>RESOLVED TODAY</small>
+      <b id="incidentResolvedSummary">0</b>
+    </div>
+
+  </div>
+
+  <article class="panel">
+    <div class="panel-head">
+      <div>
+        <h3>Incident Register</h3>
+        <p>Recently reported passenger events</p>
+      </div>
+      <span class="count" id="incidentPanelCount">1 ACTIVE</span>
+    </div>
+
+    <div id="incidentList"></div>
+  </article>
+
+  <p class="notice">
+    Dispatch actions only update simulated project data.
+    This prototype does not contact an ambulance, doctor or emergency service.
+  </p>
+
+</section>
+
+<!-- SHIFT MANAGEMENT -->
+<section class="page" id="shift">
+
+  <p class="eyebrow">OPERATOR WORKSPACE</p>
+  <h1>Shift Management</h1>
+  <p class="muted">Current operator shift overview and handover notes.</p>
+
+  <div class="shift-grid">
+
+    <article class="panel">
+      <small class="eyebrow">CURRENT SHIFT</small>
+      <h2>Morning Shift</h2>
+      <p>06:00 AM – 02:00 PM</p>
+      <span class="chip normal">● ACTIVE</span>
+
+      <div class="progress">
+        <span></span>
+      </div>
+
+      <small class="muted">Shift progress · Demonstration value</small>
+    </article>
+
+    <article class="panel">
+      <small class="eyebrow">OPERATOR</small>
+      <h2>Control Operator</h2>
+      <p>Operator ID: HL-050</p>
+      <span class="chip normal">● ON DUTY</span>
+      <p class="muted">
+        Monitor active faults, delayed trains and unresolved passenger incidents.
+      </p>
+    </article>
+
+  </div>
+
+  <article class="panel">
+    <h3>Handover Checklist</h3>
+
+    <label class="check">
+      <input type="checkbox"> Active train status reviewed
+    </label>
+
+    <label class="check">
+      <input type="checkbox"> Fault alerts reviewed
+    </label>
+
+    <label class="check">
+      <input type="checkbox"> Passenger incidents reviewed
+    </label>
+
+    <label class="check">
+      <input type="checkbox"> Pending assistance communicated
+    </label>
+
+  </article>
+
+</section>
+
+<footer>
+  METROOPS · Industrial UX Prototype · Simulated operational data
+</footer>
+
+</main>
+</div>
+
+<!-- INCIDENT REPORT MODAL -->
+<div class="backdrop" id="incidentModal" aria-hidden="true">
+
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+    <div class="modal-head">
+      <div>
+        <small class="eyebrow">PASSENGER SAFETY</small>
+        <h2 id="modalTitle">Report Passenger Incident</h2>
+      </div>
+
+      <button class="close" id="closeIncidentModal">✕</button>
+    </div>
+
+    <form id="incidentForm">
+
+      <div class="form-grid">
+
+        <label>
+          Station location
+          <select id="incidentLocation" required>
+            <option value="">Select station</option>
+            <option>Central Station</option>
+            <option>City Station</option>
+            <option>North Station</option>
+            <option>Airport Station</option>
+            <option>East Station</option>
+            <option>Market Station</option>
+            <option>South Station</option>
+          </select>
+        </label>
+
+        <label>
+          Incident type
+          <select id="incidentType" required>
+            <option value="">Select incident type</option>
+            <option>Medical emergency</option>
+            <option>Passenger injury</option>
+            <option>Lost passenger</option>
+            <option>Security concern</option>
+            <option>Unattended baggage</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        <label>
+          Severity
+          <select id="incidentSeverity" required>
+            <option>Low</option>
+            <option selected>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </label>
+
+        <label>
+          Required assistance
+          <select id="incidentAssistance">
+            <option value="">Select assistance</option>
+            <option>First Aid Team</option>
+            <option>Ambulance</option>
+            <option>Medical Doctor</option>
+            <option>Emergency Response Team</option>
+          </select>
+        </label>
+
+        <label class="full">
+          Passenger name (optional)
+          <input type="text" id="passengerName" placeholder="Enter passenger name">
+        </label>
+
+        <label class="full">
+          Incident description
+          <textarea id="incidentDescription" rows="3" required placeholder="Describe the incident..."></textarea>
+        </label>
+
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="secondary" id="cancelIncident">Cancel</button>
+        <button type="submit" class="primary">Create Incident</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
